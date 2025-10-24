@@ -151,15 +151,15 @@ const MainWrapper = styled.div`
       }
     }
     .all {
-      color: ${(props: propsTypes) => (props.filter == 1 ? "#3A7CFD" : "")};
+      color: ${(props: propsTypes) => (props.filter === 1 ? "#3A7CFD" : "")};
     }
 
     .active {
-      color: ${(props: propsTypes) => (props.filter == 2 ? "#3A7CFD" : "")};
+      color: ${(props: propsTypes) => (props.filter === 2 ? "#3A7CFD" : "")};
     }
 
     .completed {
-      color: ${(props: propsTypes) => (props.filter == 3 ? "#3A7CFD" : "")};
+      color: ${(props: propsTypes) => (props.filter === 3 ? "#3A7CFD" : "")};
     }
   }
 `;
