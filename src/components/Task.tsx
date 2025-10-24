@@ -1,24 +1,35 @@
 import { TaskWrapper } from "../styled-components";
 import { iconCheck, iconCross } from "../assets";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { taskProps, tasksTypes } from "../types/index";
+
 const Task = (props: taskProps) => {
   const [ifchecked, setIfChecked] = useState<boolean>(props.check);
 
-  const tasksCopied: tasksTypes[] = [...props.tasks];
-  const index = tasksCopied.findIndex(
-    (element: tasksTypes) => element.id === props.id
-  );
+  useEffect(() => {
+    setIfChecked(props.check);
+  }, [props.check]);
+
+  const handleToggle = () => {
+    const newChecked = !ifchecked;
+    setIfChecked(newChecked);
+    props.setCheck(newChecked);
+  };
+
+  const handleDelete = () => {
+    const tasksCopied: tasksTypes[] = [...props.tasks];
+    const index = tasksCopied.findIndex(
+      (element: tasksTypes) => element.id === props.id
+    );
+    if (index !== -1) {
+      tasksCopied.splice(index, 1);
+      props.setTasks(tasksCopied);
+    }
+  };
 
   return (
     <TaskWrapper check={ifchecked} isDark={props.isDark}>
-      <div
-        className="check"
-        onClick={() => {
-          props.tasks[index].checked = !tasksCopied[index].checked;
-          setIfChecked(props.tasks[index].checked);
-        }}
-      >
+      <div className="check" onClick={handleToggle}>
         <img src={iconCheck} alt="Check task" />
       </div>
       <p>{props.text}</p>
@@ -26,10 +37,7 @@ const Task = (props: taskProps) => {
         className="cross"
         src={iconCross}
         alt="Delete task"
-        onClick={() => {
-          tasksCopied?.splice(index, 1);
-          props.setTasks(tasksCopied);
-        }}
+        onClick={handleDelete}
       />
     </TaskWrapper>
   );
